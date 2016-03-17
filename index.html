@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js'></script>
+  <script type="text/javascript" src="instafeed.min.js"></script>
+  <!-- <script type="text/javascript" src="instafeed.footer.slide.js"></script>
+ <script type="text/javascript" src="insta.location.based.js"></script> -->
+
+ <link href='http://fonts.googleapis.com/css?family=Josefin+Sans:100,300' rel='stylesheet' type='text/css'>
+
+  <script type="text/javascript" src="http://julian.com/research/velocity/build/velocity.min.js"></script>
+  <script type="text/javascript" src="http://julian.com/research/velocity/build/velocity.ui.min.js"></script>
+<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Open+Sans:Condensed:300" />
+<link rel="stylesheet" type="text/css" href="//www.weloveiconfonts.com/api/?family=iconicstroke" />
+<!--<link type="text/css" rel="stylesheet" media="all" href="styles.css" /> -->
+
+<style>
+/* imported fonts */
+
+/*@import url("//fonts.googleapis.com/css?family=Open+Sans+Condensed:300"); */
+
+/*@import url(http://weloveiconfonts.com/api/?family=zocial);
+
+/* icon font styles */
+
+[class*="iconicstroke-"]::before {
+    font-family: "IconicStroke", sans-serif;
+    font-size: 1rem;
+    margin-right: .5rem;
+}
+
+[class="iconicstroke-comment-alt2-stroke"]::before {
+    color: #a4d0e1;
+    font-size: 1.1rem;
+}
+
+[class="iconicstroke-compass"]::before {
+    color: #efc7e2;
+}
+
+[class="iconicstroke-clock"]::before {
+    color: #a7e9c0;
+}
+
+[class="iconicstroke-heart-stroke"]::before {
+    color: #f8c0d0;
+    font-size: 1.25rem;
+    margin-right: 0;
+}
+
+[class="iconicstroke-spin"]::before,
+[class="iconicstroke-check"]::before {
+    color: #bbb;
+    font-size: 1.2rem;
+}
+
+
+/* global styles */
+
+html,
+body {
+    background: #222;
+    font-family: "Open Sans Condensed", sans-serif;
+    height: 100%;
+    width: 100%;
+}
+
+
+/* template styles */
+
+#instafeed {
+	top: 0px;
+    margin-top: 50rem;
+    text-align:center;
+    padding:5px;	 	 
+
+}
+
+#instafeed a {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .7);
+    color: #444;
+    display: inline-block;
+    margin: .5rem;
+    overflow: hidden;
+    position: relative;
+    text-decoration: none;
+    width: calc(100% / 4 - 1rem);
+}
+
+#instafeed img {
+    display: block;
+    height: auto;
+    max-width: 100%;
+    width: 100%;
+}
+
+#instafeed .filter {
+    background-color: #f6f6f6;
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, .2);
+    display: block;
+    font-size: 1rem;
+    padding: 10px;
+    position: absolute;
+    right: -30px;
+    text-align: center;
+    top: 12px;
+    transform: rotate(45deg);
+    width: 100px;
+}
+
+#instafeed .info {
+    background-color: #f6f6f6;
+    height: auto;
+    padding: .4rem .6rem .3rem;
+}
+
+#instafeed .info p {
+    font-size: 1.1rem;
+    line-height: 1.5rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+#instafeed .likes {
+    position: absolute;
+    right: .6rem;
+    bottom: .3rem;
+}
+
+#instafeed .likes p {
+    font-size: .9rem;
+    position: absolute;
+    right: 1.4rem;
+    bottom: .3rem;
+}
+
+#more,
+#nomore {
+    background-color: #f6f6f6;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .7);
+    cursor: pointer;
+    display: none;
+    margin: .5rem 1rem 0;
+    padding: .8rem .6rem .7rem;
+}
+
+#more p,
+#nomore p {
+    color: #444;
+    display: inline;
+    font-size: 1rem;
+}
+
+#more span,
+#nomore span {
+    position: relative;
+    top: 1px;
+}
+
+#nomore {
+    cursor: auto;
+    opacity: .4;
+}
+
+
+/* media queries */
+
+@media screen and (min-width:1500px) {
+    #instafeed a {
+        width: calc(100% / 5 - 1rem);
+    }
+}
+
+@media screen and (max-width:1200px) {
+    #instafeed a {
+        width: calc(100% / 3 - 1rem);
+    }
+}
+
+@media screen and (max-width:800px) {
+    #instafeed a {
+        width: calc(100% / 2 - 1rem);
+    }
+}
+
+@media screen and (max-width:480px) {
+    #instafeed a {
+        width: calc(100% - 1rem);
+    }
+}
+
+
+</style>
+
+
+<!-- footer css -->
+<style type='text/css'>
+@import "compass/css3";
+
+@import url(http://fonts.googleapis.com/css?family=Lekton:400,700);
+
+/*body {
+	background-color: #222;
+	font-family: "lekton", sans-serif;
+}*/
+
+#feed a {
+	line-height: 0;
+	margin: 0;
+	padding: 0;
+	float: left;
+}
+
+#feed {
+	width: 220%;
+    max-width:1500px;
+	margin: 0 auto;
+	text-align: center;
+}
+
+.footer-links {
+	z-index: 3;
+	position: absolute;
+	width: 100%;
+	ul {
+		width: 245px;
+		margin: 0 auto;
+		text-align: center;
+		padding: 0px;
+		margin: 0 px;
+	}
+}
+
+.footer-background {
+	width: 100%;
+	padding: 5px;
+	overflow: hidden;
+	position: absolute;
+	top: 0;
+	height: 800px;
+	&:before {
+		content: "";
+		width: 50%;
+		height: 50%;
+    opacity:1;
+		z-index: 1;
+		/* FF3.6+ */
+		/* Chrome,Safari4+ */
+		background: -moz-linear-gradient(top, rgba(34, 34, 34, 1) 8%, rgba(34, 34, 34, 0.99) 9%, rgba(34, 34, 34, 0.7) 53%, rgba(34, 34, 34, 0.11) 97%, rgba(34, 34, 34, 0.11) 100%);
+		/* FF3.6+ */
+		background: -webkit-gradient(linear, left top, left bottom, color-stop(8%, rgba(34, 34, 34, 1)), color-stop(9%, rgba(34, 34, 34, 0.99)), color-stop(53%, rgba(34, 34, 34, 0.7)), color-stop(97%, rgba(34, 34, 34, 0.11)), color-stop(100%, rgba(34, 34, 34, 0.11)));
+		/* Chrome,Safari4+ */
+		background: -webkit-linear-gradient(top, rgba(34, 34, 34, 1) 8%, rgba(34, 34, 34, 0.99) 9%, rgba(34, 34, 34, 0.7) 53%, rgba(34, 34, 34, 0.11) 97%, rgba(34, 34, 34, 0.11) 100%);
+		/* Chrome10+,Safari5.1+ */
+		background: -o-linear-gradient(top, rgba(34, 34, 34, 1) 8%, rgba(34, 34, 34, 0.99) 9%, rgba(34, 34, 34, 0.7) 53%, rgba(34, 34, 34, 0.11) 97%, rgba(34, 34, 34, 0.11) 100%);
+		/* Opera 11.10+ */
+		background: -ms-linear-gradient(top, rgba(34, 34, 34, 1) 8%, rgba(34, 34, 34, 0.99) 9%, rgba(34, 34, 34, 0.7) 53%, rgba(34, 34, 34, 0.11) 97%, rgba(34, 34, 34, 0.11) 100%);
+		/* IE10+ */
+		background: linear-gradient(to bottom, rgba(34, 34, 34, 1) 8%, rgba(34, 34, 34, 0.99) 9%, rgba(34, 34, 34, 0.7) 53%, rgba(34, 34, 34, 0.11) 97%, rgba(34, 34, 34, 0.11) 100%);
+		/* W3C */
+		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#222222', endColorstr='#1c222222',GradientType=0 );
+		/* IE6-9 */
+		display: block;
+		position: absolute;
+    	top : 0;
+		left: 0;
+	}
+	&:after {
+		@extend :before;
+    
+		top: 0 ;
+		transform: rotate(180deg);
+	}
+}
+
+#feed {
+	position: absolute;
+	left: 0;
+    top : 0;
+	animation-name: back;
+	animation-duration: 100s;
+	animation-timing-function: linear;
+	animation-iteration-count: infinite;
+}
+
+@keyframes back {
+	0% {
+		left: 0px;
+	}
+	50% {
+		left: -100%;
+	}
+	100% {
+		left: 0%;
+	}
+}
+</style>
+<style> 
+
+.inline-blocks > .block{
+  display: inline-block;
+  vertical-align: middle;
+}
+.imag{
+  height: 140px;
+  width: 140px;
+  border-radius: 180px;
+  border: 3px solid #fff;
+  margin-top: 22px;
+  margin-right: 40px;
+  
+}
+
+.twenty-one{
+  font-size: 240px;
+  font-family: 'Josefin Sans';
+  font-weight: 100;
+  line-height: 180px;
+  color: #fff;
+  margin: 40px 0;
+}
+
+.bday{
+  font-size: 24px;
+  color: #fff;
+  font-family: 'Josefin Sans';
+  font-weight: 300;
+  text-align: center;
+}
+
+.cover{
+  background: rgba(0,0,0,0.82);
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top:0;
+  left: 0;
+  z-index: 1000;
+}
+
+#can{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+.super-centered-container{
+  display:flex;
+  align-items: center;
+  justify-content: center;
+}
+
+a{
+  color: skyblue;
+  text-decoration: none;
+}
+
+.overlay-static{
+  position: relative;
+  z-index: 1000;
+  margin-bottom: 100px;
+}
+
+
+</style>
+<style>
+
+//////////////////////////////////////////// 
+
+var @D:100px; // Control diameter
+
+///////////////////////////////////////////
+/* ============================================== POSITION
+*/
+
+.cake{
+  position:absolute;
+  top:50%; left:50%;
+  margin-left:-(@D/2); margin-top:-(@D/2);
+  width:@D; height:@D;
+}
+
+/* ============================================== BASE
+*/
+
+.cake:after{
+  background:rgba(235,227,225,1);
+  border-radius:100px;
+  content:"";
+  position:absolute;
+  bottom:0; left:0;
+  width:100 height:100/50;
+}
+
+.cake:before{
+
+}
+
+/* ============================================== Candle
+*/
+
+.velas{
+  background:rgba(255,255,255,1);
+  border-radius:100%;
+  position:absolute;
+  top:50%; left:50%;
+  margin-left:-(100/2)/20;
+  margin-top:-(100/2)/6;
+  width:100/20; height:100/6;
+}
+
+.velas:after,
+.velas:before{
+  background:rgba(255,0,0,0.4);
+  content:"";
+  position:absolute;
+  width:100%; height:100/45;
+}
+
+.velas:after{
+  top:25%; left:0;
+}
+
+.velas:before{
+  top:45%; left:0;
+}
+
+/* ============================================== Fire
+*/
+
+.fuego{
+  border-radius:100%;
+  box-shadow:0 0 40px 10px rgba(248,233,209,0.2);
+  position:absolute;
+  top:-12px; left:50%;
+  margin-left:-(100/2)/15;
+  //margin-top:-(100/2)/10;
+  width:100/15; height:100/8;
+}
+
+.fuego:nth-child(1){
+  animation:fuego 2s infinite;
+}
+
+.fuego:nth-child(2){
+  animation:fuego 1.5s infinite;
+}
+
+.fuego:nth-child(3){
+  animation:fuego 1s infinite;
+}
+
+.fuego:nth-child(4){
+  animation:fuego 0.5s infinite;
+}
+
+.fuego:nth-child(5){
+  animation:fuego 0.2s infinite;
+}
+
+/* ============================================== Animation Fire
+*/
+
+@keyframes fuego{
+  0%{
+    background:rgba(254,248,97,0.5);
+    transform:translateY(0) scale(1);
+  }
+  50%{
+    background:rgba(255,50,0,0.1);
+    transform:translateY(-(100/5)) scale(0);
+  }
+  100%{
+    background:rgba(254,248,97,0.5);
+    transform:translateY(0) scale(1);
+  }
+}
+
+/* ============================================== Frosting
+*/
+
+.cobertura{
+  background:rgba(236,231,227,1);
+  border-radius:100/2;
+  position:absolute;
+  top:60%; left:50%;
+  margin-left:-(100/2)/1.8;
+  margin-top:-(100/2)/10;
+  width:100/1.8; height:100/8;
+  z-index:10;
+}
+
+.cobertura:after,
+.cobertura:before{
+  background:rgba(236,231,227,1);
+  border-radius:100;
+  content:"";
+  position:absolute;
+  width:100/20; height:100/10;
+}
+
+.cobertura:after{
+  top:100/15; right:100/7;
+}
+
+.cobertura:before{
+  top:100/10; right:100/11;
+}
+
+/* ============================================== BIZCOCHO
+*/
+
+.bizcocho{
+  background:rgba(109,56,38,1);
+  position:absolute;
+  bottom:0; left:50%;
+  margin-left:-(100/2)/2;
+  width:100/2; height:100/3;
+}
+
+.bizcocho:after,
+.bizcocho:before{
+  background:rgba(236,231,227,0.6);
+  content:"";
+  position:absolute;
+  width:100%; height:100/20;
+}
+
+.bizcocho:after{
+  top:30%; left:0;
+}
+
+.bizcocho:before{
+  top:60%; left:0;
+}
+
+
+
+
+</style>
+
+</head>
+
+<body>
+
+<title> Berna Oz | Happy Birth Day</title>
+
+ <div class="cover super-centered-container" align="center">
+  <canvas id="can">Get a browser</canvas>
+  <div class="overlay-static">    
+    <div class="inline-blocks">
+      <h2 class="twenty-one block">2</h2>
+      <img class="imag block" src="https://instagram.fsnc1-1.fna.fbcdn.net/t51.2885-19/s320x320/12479554_208506806155858_219752655_a.jpg"><h2 class="twenty-one block"> + 2</h2>
+    </div>
+    <h1 class="bday">Wish you a Very Happy Birthday Berna!! </h1>
+  </div>
+</div>
+<section class="footer-background">
+ <div id="feed"></div>
+</section>	
+
+<div class="cake">
+  <div class="velas">
+    <div class="fuego"></div>
+    <div class="fuego"></div>
+    <div class="fuego"></div>
+    <div class="fuego"></div>
+    <div class="fuego"></div>
+  </div>
+  <div class="cobertura"></div>
+  <div class="bizcocho"></div>
+  <h1>happy birthday!</h1>
+  <p>Poly</p>
+</div>
+
+<div id="instafeed"></div>
+
+<div id="more"><p><span class="iconicstroke-spin"></span>Load More Images...</p></div>
+<div id="nomore"><p><span class="iconicstroke-check"></span>All Images Loaded!</p></div>
+
+</body>
+
+<script type="text/javascript">
+// Instafeed Website: http://instafeedjs.com/
+// Inspiration: http://codepen.io/markmurray/pen/dtseB
+
+// pagination buttons
+var more = $("#more");
+var nomore = $("#nomore");
+
+// feed settings
+var feed = new Instafeed({
+    get: 'user',
+    userId: 1577157414,
+    accessToken: '610124342.1677ed0.c3f27fd84a494c2e92742d43c5ffb39c',
+    target: 'instafeed',
+    limit: 15, // max 60
+    sortBy: 'most-recent',
+    resolution: 'standard_resolution',
+    // when each set of images are loaded... *
+    after: function() {
+        // * show pagination button
+        more.show();
+        // * check for more images
+        if (!this.hasNext()) {
+            more.hide();
+            nomore.show();
+        }
+        // * animate new set of images and add class to each image
+        $('.image').not('.animated').velocity('transition.slideUpIn', {
+            stagger: 150
+        }).addClass('animated');
+        // * cache location name
+        var loc = $(".location");
+        // * hide location if not set
+        loc.each(function() {
+            if ($(this).is(':empty')) {
+                var locParent = $(this).parent();
+                locParent.css('visibility', 'hidden').insertAfter(locParent.next());
+            }
+        });
+    },
+    // for each image... *
+    filter: function(image) {
+        // * create new date object and pass in image date
+        var date = new Date(image.created_time * 1000);
+        // * create months array
+        var months = new Array(12);
+        months[0] = 'January';
+        months[1] = 'February';
+        months[2] = 'March';
+        months[3] = 'April';
+        months[4] = 'May';
+        months[5] = 'June';
+        months[6] = 'July';
+        months[7] = 'August';
+        months[8] = 'September';
+        months[9] = 'October';
+        months[10] = 'November';
+        months[11] = 'December';
+        // * parse month, day and year
+        month = date.getMonth();
+        day = date.getDate();
+        year = date.getFullYear();
+        // * concatenate and assign time
+        var time = months[month] + ' ' + day + ', ' + year;
+        image.created_time = time;
+        // * end function execution
+        return true;
+    },
+    template: '<a class="image" href="{{link}}"><span class="filter">{{model.filter}}</span><img src="{{image}}"><div class="info"><p class="caption"><span class="iconicstroke-comment-alt2-stroke"></span>{{caption}}</p><p class="location"><span class="iconicstroke-compass"></span>{{location}}</p><p class="date"><span class="iconic iconic-clock" title="clock" aria-hidden="true"></span>{{model.created_time}}</p></div><div class="likes"><span>&#9825</span></ui><p>{{likes}}</p></div></a>'
+});
+
+// pagination binding
+more.on('click', function() {
+    feed.next();
+});
+
+// initialize feed
+feed.run();
+
+</script>
+<!-- Script for heart shape back ground -->
+
+<script>
+const TwoPI = Math.PI * 2;
+var w = window.innerWidth;
+var h = window.innerHeight;
+var center_x = w / 2;
+var center_y = h / 2;
+
+var colors = ['#FF0000', '#E8D45B', '#8CFF00'];
+
+// I know the abs is not needed... but oh well
+var max_distance = Math.abs(Math.max(center_x, center_y));
+var min_distance = Math.abs(Math.min(center_x, center_y));
+function Firefly(){
+  this.velocity = 0;
+  var random_angle = Math.random() * TwoPI;
+  this.x = center_x +  Math.sin(random_angle) * ((Math.random() * (max_distance - min_distance) + min_distance));
+  this.y = center_y + Math.cos(random_angle) * ((Math.random() * (max_distance - min_distance) + min_distance));
+
+  
+  
+  this.angle_of_attack = Math.atan2(  this.y - center_y ,  this.x - center_x);
+  this.vel =  ( Math.random() * 5 ) + 5 ;
+  
+  this.color = colors[ ~~(colors.length * Math.random()) ]
+  
+  
+  this.xvel = this.vel * Math.cos( this.angle_of_attack );
+  this.yvel = this.vel * Math.sin( this.angle_of_attack );
+  this.size = 2 + Math.random() * 2;
+  
+  this.phase_diff = Math.random() * TwoPI;
+    
+}
+
+
+
+Firefly.prototype.move = function(dt){
+  if( isOnHeart(this.x, this.y)){
+    this.size -= 0.001;
+    return;
+  }
+  this.x += this.xvel * dt;
+  this.y += this.yvel * dt;
+}
+
+Firefly.prototype.render = function(ctx, now){
+  if( this.size < 1) {
+    return;
+  }
+  ctx.globalAlpha = Math.max(Math.abs(Math.sin( (now + this.phase_diff) / (~~(this.size * 100)) )), 0.4);
+  ctx.fillStyle = this.color;
+  ctx.shadowColor = this.color;
+  ctx.shadowBlur = 20 / this.size; 
+  ctx.beginPath();
+  ctx.arc( this.x, this.y, this.size, 0, TwoPI, false);
+  ctx.closePath();
+  ctx.fill();
+}
+
+var max_fireflies = 500;
+var canvas = document.getElementById('can');
+var ctx = canvas.getContext('2d');
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+var fireflies = [];
+
+
+var last = Date.now();
+var dt = 0, now = 0;
+var alive_fireflies = 0;
+var last_emit = 0;
+
+function render(){
+  now = Date.now();
+  dt = (last - now) / 1000; 
+  last = now;
+  ctx.clearRect(0,0,w,h);
+  fireflies.forEach(function(f){
+    f.move(dt);
+    f.render(ctx, now);    
+  });
+  
+  fireflies = fireflies.filter(function(f){
+    return (f.size > 1);
+  });
+
+  alive_fireflies = fireflies.length;  
+  
+  if( alive_fireflies < max_fireflies && last_emit - now < - 100){
+    fireflies.push( new Firefly());
+    last_emit = now;
+  }
+  
+  requestAnimationFrame(render);
+}
+
+
+render();
+
+// 
+function isOnHeart(x,y){
+	  x = ((x - center_x) / (min_distance * 1.2)) * 1.8;
+	  y = ((y - center_y) / (min_distance)) * - 1.8;
+
+    var x2 = x * x;
+  	var y2 = y * y;
+    // Simplest Equation of lurve
+    return (Math.pow((x2 + y2 - 1), 3) - (x2 * (y2 * y)) <= 0);
+}
+</script>
+<script type="text/javascript">
+	var instaFeed = new Instafeed({
+			      get: 'user',
+			      userId: 1577157414,
+        		  accessToken: '610124342.1677ed0.c3f27fd84a494c2e92742d43c5ffb39c',
+			      target: 'feed',
+			      sortBy: 'most-liked',
+			      limit: 20,
+			      resolution: 'thumbnail'
+});	instaFeed.run();
+</script>
+
+</html>
